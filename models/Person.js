@@ -9,7 +9,7 @@ const personSchema = new Schema({
     }, 
     work:{
         type: String,
-        enum:['chef', 'waiter', 'manager'],
+       // enum:['chef', 'waiter', 'manager'],
         required: true
     },
     mobile:{
