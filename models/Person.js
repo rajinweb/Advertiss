@@ -26,6 +26,9 @@ const personSchema = new Schema({
     },
     salary:{
         type: Number
+    },
+    message:{
+        type: String
     }
 }, { collection: 'emp' });
 
