@@ -93,12 +93,20 @@
     <section id="contact">
         <h2>Get in Touch</h2>
         <p>Feel free to reach out!</p>
-        <form>
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <textarea placeholder="Your Message" required></textarea>
-            <button type="submit">Send Message</button>
+        <form id='my-form' action="https://curly-dollop-qj47699rvjh44w6-3000.app.github.dev/person" method="POST">
+            <input type="text" name="name" placeholder="Your Name">
+            <input type="number" name="age" placeholder="Your Age">
+            <input type="email" name="email" placeholder="Your Email">
+            <input type="text" name="work" placeholder="Your Work">
+            <input type="number" name="mobile" placeholder="Your Mobile">
+            <input type="number" name="salary" placeholder="Your Salary">
+            
+            <input type="text" name="address" placeholder="Your Address"/>
+
+            <textarea placeholder="Your Message"></textarea>
+            <button type="submit" id="my-form-button">Send Message</button>
         </form>
+        <p id="my-form-status"></p>
         <p>Phone: (123) 456-7890 | Email: info@yourbusiness.com</p>
     </section>
 
@@ -114,6 +122,45 @@
             <a href="#">Instagram</a>
         </div>
     </footer>
+<script>
+var form = document.getElementById("my-form");
 
+async function handleSubmit(event) {
+    event.preventDefault();
+    var status = document.getElementById("my-form-status");
+   // var data = new FormData(form);
+    
+    const data = new URLSearchParams();
+    for (const pair of new FormData(event.target)) {
+        data.append(pair[0], pair[1]);
+    }
+
+    fetch(event.target.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(response => {
+        if (response.ok) {
+            status.innerHTML = "Thanks for your submission!";
+            form.reset()
+        } else {
+            response.json().then(data => {
+            if (Object.hasOwn(data, 'errors')) {
+                status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+            } else {
+                status.innerHTML = "Oops! There was a problem submitting your form"
+                }
+            })
+        }
+    }).catch(error => {
+    status.innerHTML = "Oops! There was a problem submitting your form"
+    });
+}
+form.addEventListener("submit", handleSubmit)
+
+
+</script>
 </body>
 </html>

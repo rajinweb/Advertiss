@@ -2,16 +2,20 @@ const express = require('express')
 const Person = require('../models/Person');
 const router = express.Router();
 
-router.post('/',  async (req, res)=> {
+router.post('/', async(req, res)=> {
     try{
         const data= req.body; // person data from user
         const newPerson = new Person(data);
         const response= await newPerson.save();
-         console.log('data saved');
-        res.status(200).json(response);
+         console.log('Employee data submitted');
+        res.status(200).json({
+          success: true,
+          message: "Some success message",
+          data: response
+      });
+      res.end();
 
   }catch(err){
-    console.log('Error', err);
     res.status(500).json({error: 'internal server error 500'})
   }
 
